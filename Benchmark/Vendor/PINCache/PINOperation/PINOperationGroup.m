@@ -81,10 +81,10 @@
         dispatch_block_t originalOperation = _operations[idx];
         dispatch_block_t groupBlock = ^{
           originalOperation();
-          dispatch_group_leave(_group);
+          dispatch_group_leave(self->_group);
         };
         
-        id <PINOperationReference> operationReference = [_operationQueue addOperation:groupBlock withPriority:[_operationPriorities[idx] unsignedIntegerValue]];
+        id <PINOperationReference> operationReference = [_operationQueue scheduleOperation:groupBlock withPriority:[_operationPriorities[idx] unsignedIntegerValue]];
         [_groupToOperationReferences setObject:operationReference forKey:_operationReferences[idx]];
       }
       
